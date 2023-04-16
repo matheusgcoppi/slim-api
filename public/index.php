@@ -27,7 +27,7 @@ $app->get('/', function (Request $request, Response $response) {
 })->setName('root');
 
 
-$app->get('/customers/all', function (Request $request, Response $response) {
+$app->get('/customer/all', function (Request $request, Response $response) {
     
     try {
         $query = "SELECT * FROM customers";
@@ -53,7 +53,7 @@ $app->get('/customers/all', function (Request $request, Response $response) {
     }
 });
 
-$app->get('/customers/{id}', function (Request $request, Response $response, array $args ) {
+$app->get('/customer/{id}', function (Request $request, Response $response, array $args ) {
     try {
         $id = $args['id'];
         $query = "SELECT * FROM customers WHERE id = $id";
@@ -74,12 +74,54 @@ $app->get('/customers/{id}', function (Request $request, Response $response, arr
             ->withStatus(404);
         }
 
-
-
         $response->getBody()->write(json_encode($customer));
         return $response 
                ->withHeader('Content-Type', 'applications/json')
                ->withStatus(200);
+    } catch (PDOException $error) {
+        $error = array(
+            "message" => $error->getMessage()
+        );
+
+        $response->getBody()->write(json_encode($error));
+        return $response
+            ->withHeader('Content-Type', 'applications/json')
+            ->withStatus(500);
+    }
+});
+
+$app->put('/customer/update/{id}', function(Request $request, Response $response, array $args) {
+    try {
+        $data = $request->getParsedBody();
+        $id = $args['id'];
+        $name = $data['name'];
+        $email = $data['email'];
+        $phone = $data['phone'];
+
+        if(empty($id)) {
+            throw new Exception('ID is empty');
+        }
+
+        $query = "UPDATE customers SET email='$email', name= '$name', phone='$phone' WHERE id=$id";
+        $db = new Database();
+        $connection = $db->connect();
+        $stmt = $connection->query($query);
+       
+        if($stmt) {
+
+            $query2 = "SELECT * FROM customers WHERE id=$id";
+            $stmt = $connection->query($query2);
+            $customerUpdated = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            $response->getBody()->write(json_encode($customerUpdated));
+            return $response
+                    ->withHeader('Content-Type', 'applications/json')
+                    ->withStatus(201);
+
+        } else {
+            throw new Exception('Update failed');
+        }
+
     } catch (PDOException $error) {
         $error = array(
             "message" => $error->getMessage()
