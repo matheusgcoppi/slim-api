@@ -174,6 +174,36 @@ $app->put('/customer/update/{id}', function(Request $request, Response $response
     }
 });
 
+$app->delete('/customer/delete/{id}', function (Request $request, Response $response, array $args) {
+    $id = $args['id'];
+    try {
+        $query = "DELETE FROM customers WHERE id = $id";
+        $db = new Database();
+        $conn = $db->connect();
+        $stmt = $conn->prepare($query);
+        $result = $stmt->execute();
+
+        $responseData = array(
+            "message"=> "The user by id " .$id . " was deleted",
+            "result" => $result
+        );
+       
+        $response->getBody()->write(json_encode($responseData));
+        return $response
+                ->withHeader('Content-Type', 'applications/json')
+                ->withStatus(200);
+    } catch (PDOException $error) {
+        $error = array(
+            "message" => $error->getMessage()
+        );
+
+        $response->getBody()->write(json_encode($error));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(500);
+    }
+});
+
 
 // Run app
 $app->run();
