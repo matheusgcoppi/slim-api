@@ -26,6 +26,46 @@ $app->get('/', function (Request $request, Response $response) {
     return $response;
 })->setName('root');
 
+$app->post('/customer', function(Request $request, Response $response) {
+    $data = $request->getParsedBody();
+    $name = $data['name'];
+    $email = $data['email'];
+    $phone = $data['phone'];
+
+    try {
+        $query = "INSERT INTO customers (name, email, phone) VALUES ('$name', '$email', '$phone')";
+        $db = new Database();
+        $connection = $db->connect();
+        $stmt = $connection->query($query);
+
+        if($stmt) {
+            $query2 = "SELECT * FROM customers WHERE name = '$name' AND email = '$email' AND phone = '$phone' ORDER BY id DESC LIMIT 1";
+            $db = new Database();
+            $connection = $db->connect();
+            $stmt = $connection->query($query2);
+            $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $response->getBody()->write(json_encode($customer));
+            return $response
+                    ->withHeader('Content-Type', 'text/plain')
+                    ->withStatus(201);
+
+        } else {
+            throw new Exception('Create customer failed');
+        }
+    } catch (PDOException $error) {
+        $error = array(
+            "message" => $error->getMessage()
+        );
+
+        $response->getBody()->write(json_encode($error));
+        return $response
+            ->withHeader('Content-Type', 'applications/json')
+            ->withStatus(500);
+    }
+
+});
+
 
 $app->get('/customer/all', function (Request $request, Response $response) {
     
