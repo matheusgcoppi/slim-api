@@ -177,21 +177,36 @@ $app->put('/customer/update/{id}', function(Request $request, Response $response
 $app->delete('/customer/delete/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
     try {
-        $query = "DELETE FROM customers WHERE id = $id";
+        $query = "DELETE FROM customers WHERE id = :id AND NOT EXISTS(SELECT 1 FROM customers WHERE id = :id)";
         $db = new Database();
         $conn = $db->connect();
         $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $result = $stmt->execute();
 
-        $responseData = array(
-            "message"=> "The user by id " .$id . " was deleted",
-            "result" => $result
-        );
-       
-        $response->getBody()->write(json_encode($responseData));
-        return $response
-                ->withHeader('Content-Type', 'applications/json')
-                ->withStatus(200);
+        if($stmt->rowCount() < 0 ) {
+            $responseData = array(
+                "message"=> "The user by id " .$id . " was deleted",
+                "result" => $result
+            );
+           
+            $response->getBody()->write(json_encode($responseData));
+            return $response
+                    ->withHeader('Content-Type', 'applications/json')
+                    ->withStatus(200);
+        }
+        else {
+            $responseData = array(
+                "message"=> "The user by id " .$id . " was not found",
+                "result" => $result
+            );
+           
+            $response->getBody()->write(json_encode($responseData));
+            return $response
+                    ->withHeader('Content-Type', 'applications/json')
+                    ->withStatus(404);  
+        }
+
     } catch (PDOException $error) {
         $error = array(
             "message" => $error->getMessage()
@@ -203,6 +218,8 @@ $app->delete('/customer/delete/{id}', function (Request $request, Response $resp
             ->withStatus(500);
     }
 });
+
+
 
 
 // Run app
