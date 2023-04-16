@@ -29,6 +29,7 @@ class ComposerStaticInit154ec1f9c1d995124a9f46e7041116e9
         '751a5a3f463e4be759be31748b61737c' => __DIR__ . '/..' . '/laminas/laminas-diactoros/src/functions/parse_cookie_header.legacy.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
+        '9f48aeb4dc9faa86d254fb69cb2c1870' => __DIR__ . '/../..' . '/config/db.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -90,8 +91,13 @@ class ComposerStaticInit154ec1f9c1d995124a9f46e7041116e9
             'Doctrine\\Deprecations\\' => 22,
             'DeepCopy\\' => 9,
         ),
+        'C' => 
+        array (
+            'Config\\' => 7,
+        ),
         'A' => 
         array (
+            'App\\' => 4,
             'AdrianSuter\\Autoload\\Override\\' => 30,
         ),
     );
@@ -212,6 +218,14 @@ class ComposerStaticInit154ec1f9c1d995124a9f46e7041116e9
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/config',
+        ),
+        'App\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
         ),
         'AdrianSuter\\Autoload\\Override\\' => 
         array (

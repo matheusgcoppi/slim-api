@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'slim/slim',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '01383c2741509fdec8495e2acfbb0c04957ce5b8',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -524,9 +524,9 @@
             'dev_requirement' => true,
         ),
         'slim/slim' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '01383c2741509fdec8495e2acfbb0c04957ce5b8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

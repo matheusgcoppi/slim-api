@@ -34,5 +34,7 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/lib/Doctrine/Deprecations'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
+    'Config\\' => array($baseDir . '/config'),
+    'App\\' => array($baseDir . '/src'),
     'AdrianSuter\\Autoload\\Override\\' => array($vendorDir . '/adriansuter/php-autoload-override/src'),
 );

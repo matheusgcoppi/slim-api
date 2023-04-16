@@ -73,8 +73,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Slim\\": "Slim"
-        }
+            "Slim\\": "Slim",
+            "App\\": "src/",
+            "Config\\": "config/"
+        },
+        "files": [
+            "config/db.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
