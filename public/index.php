@@ -27,22 +27,31 @@ $app->get('/', function (Request $request, Response $response) {
 })->setName('root');
 
 $app->post('/customer', function(Request $request, Response $response) {
-    $data = $request->getParsedBody();
-    $name = $data['name'];
-    $email = $data['email'];
-    $phone = $data['phone'];
+    $name = $request->getParam('name');
+    $email = $request->getParam('email');
+    $phone = $request->getParam('phone');
+    
 
     try {
-        $query = "INSERT INTO customers (name, email, phone) VALUES ('$name', '$email', '$phone')";
+        $query = "INSERT INTO customers (name, email, phone) VALUES (:name, :email, :phone)";
         $db = new Database();
         $connection = $db->connect();
-        $stmt = $connection->query($query);
+        $stmt = $connection->prepare($query);
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->execute();
 
         if($stmt) {
-            $query2 = "SELECT * FROM customers WHERE name = '$name' AND email = '$email' AND phone = '$phone' ORDER BY id DESC LIMIT 1";
+            $query2 = "SELECT * FROM customers WHERE name = :name AND email = :email AND phone = :phone ORDER BY id DESC LIMIT 1";
             $db = new Database();
             $connection = $db->connect();
-            $stmt = $connection->query($query2);
+            $stmt = $connection->prepare($query2);
+            $stmt->bindParam(':name', $name);
+            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':phone', $phone);
+            $stmt->execute();
+
             $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             $response->getBody()->write(json_encode($customer));
