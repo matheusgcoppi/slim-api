@@ -22,7 +22,9 @@ $app->addErrorMiddleware(true, true, true);
 
 // Define app routes
 $app->get('/', function (Request $request, Response $response) {
-    $response->getBody()->write('Hello, World!!');
+    echo "teste";
+    $response->getBody()->write('Hello, World!!!!!!!!');
+
     return $response;
 })->setName('root');
 
@@ -30,6 +32,15 @@ $app->post('/customer', function(Request $request, Response $response) {
     $name = $request->getParam('name');
     $email = $request->getParam('email');
     $phone = $request->getParam('phone');
+
+    $options = [
+        'memory_cost' => PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+        'time_cost' => PASSWORD_ARGON2_DEFAULT_TIME_COST,
+        'threads' => PASSWORD_ARGON2_DEFAULT_THREADS,
+    ];
+
+    $hashed_phone = password_hash($phone, PASSWORD_ARGON2ID, $options);
+    echo $hashed_phone;
     
 
     try {
@@ -39,7 +50,7 @@ $app->post('/customer', function(Request $request, Response $response) {
         $stmt = $connection->prepare($query);
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':phone', $hashed_phone);
         $stmt->execute();
 
         if($stmt) {
@@ -49,8 +60,9 @@ $app->post('/customer', function(Request $request, Response $response) {
             $stmt = $connection->prepare($query2);
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':phone', $phone);
+            $stmt->bindParam(':phone', $hashed_phone);
             $stmt->execute();
+
 
             $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
