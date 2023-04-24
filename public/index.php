@@ -6,7 +6,14 @@ use Selective\BasePath\BasePathMiddleware;
 use Slim\Factory\AppFactory;
 use Config\Database; 
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
 require_once __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(__FILE__,2));
+$dotenv->load();
+
 
 
 $app = AppFactory::create();
@@ -19,6 +26,19 @@ $app->addRoutingMiddleware();
 $app->add(new BasePathMiddleware($app));
 
 $app->addErrorMiddleware(true, true, true);
+
+class Common {
+    public $message;
+
+    public function __construct(string $message) {
+        $this->message = $message;
+    }
+
+    public function messageError() {
+        $response = new \Slim\Psr7\Response();
+       
+    }
+}
 
 // Define app routes
 $app->get('/', function (Request $request, Response $response) {
@@ -63,10 +83,20 @@ $app->post('/customer', function(Request $request, Response $response) {
             $stmt->bindParam(':phone', $hashed_phone);
             $stmt->execute();
 
-
             $customer = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $response->getBody()->write(json_encode($customer));
+            $key = 'example_key';
+            $payload = [
+            'exp' => time() + 10,
+            'iat' => time(),
+            'email'=> $email
+            ];
+
+            $encode = JWT::encode($payload, $_ENV['KEY']);
+            
+            print_r($encode);
+
+            $response->getBody()->write(json_encode($encode));
             return $response
                     ->withHeader('Content-Type', 'text/plain')
                     ->withStatus(201);

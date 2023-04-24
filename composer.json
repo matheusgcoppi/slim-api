@@ -78,7 +78,8 @@
             "Config\\": "config/"
         },
         "files": [
-            "config/db.php"
+            "config/db.php",
+            ".env"
         ]
     },
     "autoload-dev": {

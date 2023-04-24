@@ -29,6 +29,7 @@ return array(
     'HttpSoft\\ServerRequest\\' => array($vendorDir . '/httpsoft/http-server-request/src'),
     'HttpSoft\\Message\\' => array($vendorDir . '/httpsoft/http-message/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'Fig\\Http\\Message\\' => array($vendorDir . '/fig/http-message-util/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),

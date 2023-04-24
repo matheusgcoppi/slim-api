@@ -30,6 +30,7 @@ class ComposerStaticInit154ec1f9c1d995124a9f46e7041116e9
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         '9f48aeb4dc9faa86d254fb69cb2c1870' => __DIR__ . '/../..' . '/config/db.php',
+        '88c311c49aa8ddc569547060b0040f7a' => __DIR__ . '/../..' . '/.env',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -82,6 +83,7 @@ class ComposerStaticInit154ec1f9c1d995124a9f46e7041116e9
         ),
         'F' => 
         array (
+            'Firebase\\JWT\\' => 13,
             'Fig\\Http\\Message\\' => 17,
             'FastRoute\\' => 10,
         ),
@@ -198,6 +200,10 @@ class ComposerStaticInit154ec1f9c1d995124a9f46e7041116e9
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'Fig\\Http\\Message\\' => 
         array (

@@ -29,4 +29,5 @@ return array(
     '253c157292f75eb38082b5acb06f3f01' => $vendorDir . '/nikic/fast-route/src/functions.php',
     '9b38cf48e83f5d8f60375221cd213eee' => $vendorDir . '/phpstan/phpstan/bootstrap.php',
     '9f48aeb4dc9faa86d254fb69cb2c1870' => $baseDir . '/config/db.php',
+    '88c311c49aa8ddc569547060b0040f7a' => $baseDir . '/.env',
 );
